@@ -1,0 +1,50 @@
+/* main.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000; /* fallback khi canvas chưa load */
+    font-family: sans-serif;
+      
+      
+  }
+  
+  canvas {
+    display: block;
+  }
+  
+  /* Giao diện UI overlay */
+  #ui {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    border-radius: 8px;
+    line-height: 1.6;
+    z-index: 10;
+  }
+  
+  #exitBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+  }
+  
+  #exitBtn:hover {
+    background-color: #c0392b;
+  }
+  

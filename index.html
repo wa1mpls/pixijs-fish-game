@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- PixiJS CDN -->
+<script type="module">
+    import * as PIXI from 'https://cdn.jsdelivr.net/npm/pixi.js@7.2.4/dist/pixi.min.mjs';
+    window.PIXI = PIXI;
+  </script>
+
+
+  <meta charset="UTF-8" />
+  <title>Fish Game</title>
+  <link rel="stylesheet" href="main.css" />
+  <style>
+    @font-face {
+      font-family: 'PixelFont';
+      src: url('assets/fonts/pixel.ttf'); /* nếu có */
+    }
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'PixelFont', sans-serif;
+    }
+    #ui {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: white;
+      font-size: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px;
+      border-radius: 8px;
+    }
+    #exitBtn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: red;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="ui">
+    <div>🎮 Player: <span id="playerName">user</span></div>
+    <div>⭐ Level: <span id="level">1</span></div>
+    <div>🐟 Fish Eaten: <span id="fishCount">0</span></div>
+    <div>🏆 Score: <span id="score">0</span></div>
+  </div>
+  <button id="exitBtn">Exit</button>
+
+  
+  <!-- Entry point -->
+  <script type="module" src="source/app.js"></script>
+</body>
+</html>
