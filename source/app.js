@@ -6,10 +6,16 @@ import { loadAssets } from './utils/AssetLoader.js';
 import { GameScene } from './scene/GameScene.js';
 
 // Tạo app Pixi
-export const app = new PIXI.Application({
+/*export const app = new PIXI.Application({
     width: window.innerWidth,
     height: window.innerHeight,
     backgroundColor: 0x1099bb
+});*/
+
+export const app = new PIXI.Application({
+    resizeTo: window, // ✅ Tự động resize canvas theo window
+    backgroundColor: 0x1099bb,
+    antialias: true, // Mịn hơn nếu scale
 });
 
 document.body.appendChild(app.view);
@@ -23,7 +29,7 @@ async function start() {
 
 window.onload = start;
 
-// Cập nhật kích thước khi resize
+/*// Cập nhật kích thước khi resize
 window.addEventListener('resize', () => {
     app.renderer.resize(window.innerWidth, window.innerHeight);
-});
+});*/

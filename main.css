@@ -11,8 +11,11 @@ body {
   }
   
   canvas {
+    width: 100vw !important;
+    height: 100vh !important;
     display: block;
   }
+  
   
   /* Giao diện UI overlay */
   #ui {
