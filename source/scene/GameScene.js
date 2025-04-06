@@ -3,11 +3,13 @@ import { app } from '../app.js';
 import { ASSETS } from '../constants.js';
 import { PlayerFish } from '../entities/Players.js';
 import { SmallFish } from '../entities/Enemy.js';
+import { BigFish } from '../entities/Big_Fish.js';
 import { GameStats } from '../utils/GameStats.js';
 import { getRandomPosition } from '../utils/Helpers.js';
 import { LevelSystem } from '../systems/LevelSystem.js';
 import { CollisionSystem } from '../systems/CollisionSystem.js';
 import { SpawnSystem } from '../utils/SpawnSystem.js';
+import { getRandomInt } from '../utils/Helpers.js';
 
 export class GameScene {
   constructor(appInstance) {
@@ -32,7 +34,7 @@ export class GameScene {
     this.container.addChild(bg);
 
     // Seaweed & Coral
-    this.addDecorations();
+    /*this.addDecorations();*/
 
     // Player
     this.player = new PlayerFish();
@@ -41,7 +43,8 @@ export class GameScene {
     this.container.addChild(this.player.sprite);
 
     // Enemies khởi đầu
-    this.spawnEnemies(8); // spawn nhiều hơn, để duy trì gameplay
+    const initialCount = getRandomInt(15, 30); // 👈 tạo số random cá khởi đầu
+    this.spawnEnemies(initialCount);
 
     // Hệ thống phụ
     this.levelSystem = new LevelSystem(this, this.player, this.stats);
@@ -76,16 +79,23 @@ export class GameScene {
     }
 
     // Giữ số lượng cá liên tục
-    if (this.enemies.length < 8) {
-      this.spawnEnemies(2);
+    if (this.enemies.length < 15) {
+      this.spawnEnemies(getRandomInt(1, 3));
     }
-
+    
     this.levelSystem.update();
 
     const now = Date.now();
     this.spawnSystem.update(delta, now - this.startTime);
 
     const activeObjects = this.spawnSystem.getObjects();
+
+    for (const obj of activeObjects) {
+      if (typeof obj.update === 'function') {
+        obj.update(delta); // Cho phép rắn di chuyển
+      }
+    }
+
     this.collisionSystem.update(activeObjects);
 
     if (this.player.isDead()) {
@@ -96,16 +106,17 @@ export class GameScene {
     }
   }
 
-  spawnEnemies(count) {
-    for (let i = 0; i < count; i++) {
-      const enemy = new SmallFish();
-      const { x, y } = getRandomPosition(this.app.screen);
-      enemy.sprite.x = x;
-      enemy.sprite.y = y;
-      this.enemies.push(enemy);
-      this.container.addChild(enemy.sprite);
+  
+    spawnEnemies(count) {
+      for (let i = 0; i < count; i++) {
+        const isBig = Math.random() < 0.3; // 30% là cá bự
+        const enemy = isBig ? new BigFish() : new SmallFish();
+        enemy.type = isBig ? 'big_fish' : 'small_fish';
+        this.enemies.push(enemy);
+        this.container.addChild(enemy.sprite);
+      }
     }
-  }
+    
 
   hitTest(a, b) {
     const ab = a.getBounds();
@@ -121,13 +132,14 @@ export class GameScene {
       this.container.removeChild(e.sprite);
     }
     this.enemies = [];
-
-    this.spawnEnemies(10);
-
+  
+    const randomCount = getRandomInt(15, 30); // 👈 random lại
+    this.spawnEnemies(randomCount);
+  
     this.player.sprite.x = this.app.screen.width / 2;
     this.player.sprite.y = this.app.screen.height / 2;
   }
-
+  
   addDecorations() {
     for (let i = 0; i < 3; i++) {
       const weed = new PIXI.Sprite(PIXI.Texture.from(ASSETS.seaweed));
@@ -145,4 +157,6 @@ export class GameScene {
       this.container.addChild(coral);
     }
   }
+
+
 }

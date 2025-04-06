@@ -6,7 +6,7 @@ export class PlayerFish {
     this.sprite = new PIXI.Sprite(PIXI.Texture.from(ASSETS.user_fish));
     this.sprite.anchor.set(0.5);
     this.sprite.scale.set(1); // scale ban đầu
-    this.speed = 3;
+    this.speed = 14;
     this.target = { x: this.sprite.x, y: this.sprite.y };
     this.hitCount = 0;
   }
