@@ -26,13 +26,20 @@ export class PlayerFish {
     const dx = this.target.x - this.sprite.x;
     const dy = this.target.y - this.sprite.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
-
-    if (dist > 1) {
-      const angle = Math.atan2(dy, dx);
-      this.sprite.x += Math.cos(angle) * this.speed * delta;
-      this.sprite.y += Math.sin(angle) * this.speed * delta;
+  
+    // ✅ Nếu đã rất gần mục tiêu thì gắn luôn vị trí → tránh giật
+    if (dist < this.speed * delta) {
+      this.sprite.x = this.target.x;
+      this.sprite.y = this.target.y;
+      return;
     }
+  
+    // ✅ Di chuyển mượt về phía target
+    const angle = Math.atan2(dy, dx);
+    this.sprite.x += Math.cos(angle) * this.speed * delta;
+    this.sprite.y += Math.sin(angle) * this.speed * delta;
   }
+  
 
   grow() {
     const currentScale = this.sprite.scale.y;

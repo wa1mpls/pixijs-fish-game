@@ -140,7 +140,7 @@ export class GameScene {
     this.player.sprite.y = this.app.screen.height / 2;
   }
   
-  addDecorations() {
+ /* addDecorations() {
     for (let i = 0; i < 3; i++) {
       const weed = new PIXI.Sprite(PIXI.Texture.from(ASSETS.seaweed));
       weed.anchor.set(0.5, 1);
@@ -156,7 +156,7 @@ export class GameScene {
       coral.y = this.app.screen.height - 60 - i * 60;
       this.container.addChild(coral);
     }
-  }
+  }*/
 
 
 }
