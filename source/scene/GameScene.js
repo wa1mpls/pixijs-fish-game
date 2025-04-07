@@ -72,9 +72,11 @@ export class GameScene {
       enemy.update(delta);
 
       if (this.hitTest(this.player.sprite, enemy.sprite)) {
-        this.container.removeChild(enemy.sprite);
-        this.enemies = this.enemies.filter(e => e !== enemy);
-        this.stats.addScore(10);
+        if (!enemy.isBig && enemy.level < this.player.level) {
+          this.container.removeChild(enemy.sprite);
+          this.enemies = this.enemies.filter(e => e !== enemy);
+          this.stats.addScore(10);
+        }
       }
     }
 

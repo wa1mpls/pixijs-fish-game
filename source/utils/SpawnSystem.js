@@ -22,8 +22,8 @@ export class SpawnSystem {
       this.timers.snake = currentTime;
     }
 
-    // Pearl hiện 2s mỗi 60s
-    if (currentTime - this.timers.pearl > 60_000) {
+    // Pearl hiện 10s mỗi 15s
+    if (currentTime - this.timers.pearl > 15_000) {
       this.spawnPearl();
       this.timers.pearl = currentTime;
     }
@@ -152,7 +152,7 @@ export class SpawnSystem {
 
     setTimeout(() => {
       sprite.visible = false;
-    }, 2000);
+    }, 10_000);
   }
 
   spawnCrab() {
