@@ -1,6 +1,6 @@
 export const ASSETS = {
     // Player & Fish
-    user_fish: 'assets/image/smallfish/user_fish.png',
+    user_fish: 'assets/image/user_fish/user_fish.png',
     blue_small_fish: 'assets/image/smallfish/blue_small_fish.png',
     green_yellow_small_fish: 'assets/image/smallfish/green_yellow_small_fish.png',
     orange_small_fish: 'assets/image/smallfish/organe_small_fish.png',
@@ -29,6 +29,10 @@ export const ASSETS = {
     gameover_sound: 'assets/sounds/gameover.mp3',
     levelup_sound: 'assets/sounds/levelup.mp3',
     back_ground: 'aassets/sounds/background.mp3',
+
+  
+    playerAtlas: 'assets/sprite/texture.json', // ✅ thêm dòng này
+
 
   };
   

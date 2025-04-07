@@ -26,9 +26,20 @@ async function start() {
   // ✅ Phát nhạc sau khi game khởi động
   backgroundMusic.play().then(() => {
     isMusicPlaying = true;
-  }).catch(e => {
-    console.warn("🎵 Không thể phát nhạc tự động:", e);
+  }).catch(() => {
+    // Nếu bị chặn, đợi người chơi click bất kỳ đâu (ẩn)
+    const enableMusic = () => {
+      backgroundMusic.play().then(() => {
+        isMusicPlaying = true;
+      }).catch(e => {
+        console.warn("🎵 Trình duyệt từ chối phát nhạc:", e);
+      });
+      window.removeEventListener('click', enableMusic);
+    };
+  
+    window.addEventListener('click', enableMusic);
   });
+  
 }
 
 window.onload = start;
