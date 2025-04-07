@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- PixiJS CDN -->
- 
-<script type="module">
-    import * as PIXI from 'https://cdn.jsdelivr.net/npm/pixi.js@7.2.4/dist/pixi.min.mjs';
-    
-    window.PIXI = PIXI;
-  </script>
-
-
   <meta charset="UTF-8" />
   <title>Fish Game</title>
   <link rel="stylesheet" href="main.css" />
+
+  <!-- Load PIXI & Emitter đúng cách -->
+  <script type="module">
+    import * as PIXI from 'https://cdn.jsdelivr.net/npm/pixi.js@7.2.4/+esm';
+    import { Emitter } from 'https://cdn.jsdelivr.net/npm/@pixi/particle-emitter@5.0.3/+esm';
+
+    window.PIXI = PIXI;
+    window.Emitter = Emitter;
+  </script>
+
   <style>
-    @font-face {
-      font-family: 'PixelFont';
-      src: url('assets/fonts/pixel.ttf'); /* nếu có */
-    }
     body {
       margin: 0;
       overflow: hidden;
@@ -33,18 +30,6 @@
       padding: 10px;
       border-radius: 8px;
     }
-    #exitBtn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: red;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      font-size: 14px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
   </style>
 </head>
 <body>
@@ -57,8 +42,7 @@
   </div>
   <button id="exitBtn">Exit</button>
 
-  
-  <!-- Entry point -->
+  <!-- Entry -->
   <script type="module" src="source/app.js"></script>
 </body>
 </html>

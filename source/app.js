@@ -1,5 +1,6 @@
 import { loadAssets } from './utils/AssetLoader.js';
 import { GameScene } from './scene/GameScene.js';
+//import * as PIXI from 'https://cdn.jsdelivr.net/npm/pixi.js@7.2.4/+esm';
 
 // Tạo app Pixi với auto-resize
 export const app = new PIXI.Application({
