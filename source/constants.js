@@ -28,5 +28,7 @@ export const ASSETS = {
     eat_sound: 'assets/sounds/eat.mp3',
     gameover_sound: 'assets/sounds/gameover.mp3',
     levelup_sound: 'assets/sounds/levelup.mp3',
+    back_ground: 'aassets/sounds/background.mp3',
+
   };
   
