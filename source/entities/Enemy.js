@@ -26,6 +26,7 @@ export class SmallFish {
     const level = Math.random() < 0.5 ? 1 : 2;
     const baseScale = 0.5;
     this.level = level;
+    this.type = this.level === 1 ? 'small_fish' : 'same_size_fish';
     this.size = baseScale * Math.pow(2, level - 1);
 
     // ↔️↕️ Hướng di chuyển

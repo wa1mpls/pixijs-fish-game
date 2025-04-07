@@ -8,6 +8,8 @@ export class GameStats {
       this.score = 0;
       this.level = 1;
       this.fishEaten = 0;
+      this.sameSizeCount = 0;
+      this.smallerCount = 0;
       this.updateUI();
     }
   

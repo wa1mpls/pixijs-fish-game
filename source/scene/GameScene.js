@@ -88,7 +88,11 @@ export class GameScene {
     const now = Date.now();
     this.spawnSystem.update(delta, now - this.startTime);
 
-    const activeObjects = this.spawnSystem.getObjects();
+    const activeObjects = [
+      ...this.enemies, 
+      ...this.spawnSystem.getObjects()
+    ];
+    
 
     for (const obj of activeObjects) {
       if (typeof obj.update === 'function') {
