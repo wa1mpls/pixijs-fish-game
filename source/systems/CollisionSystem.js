@@ -33,6 +33,11 @@ export class CollisionSystem {
           case 'pearl':
             this.handlePearl(obj);
             break;
+
+          case 'small_fish':
+            case 'same_size_fish':
+              this.handleEdibleFish(obj);
+              break;
         }
       }
     }
@@ -75,4 +80,27 @@ export class CollisionSystem {
     pearl.sprite.visible = false;
     this.player.grow();
   }
+
+  handleEdibleFish(fish) {
+    if (!fish.sprite.visible) return; 
+  
+    fish.sprite.visible = false;
+    this.stats.fishEaten++;
+  
+    if (fish.type === 'same_size_fish') {
+      this.stats.sameSizeCount++;
+    } else if (fish.type === 'small_fish') {
+      this.stats.smallerCount++;
+    }
+  
+    if (this.stats.sameSizeCount >= 5 || this.stats.smallerCount >= 10) {
+      this.player.grow();
+      this.stats.sameSizeCount = 0;
+      this.stats.smallerCount = 0;
+    }
+  
+    console.log('Same size:', this.stats.sameSizeCount, 'Smaller:', this.stats.smallerCount);
+  }
+  
+  
 }
