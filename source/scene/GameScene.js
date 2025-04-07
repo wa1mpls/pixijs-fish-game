@@ -1,15 +1,16 @@
-//import * as PIXI from 'pixi.js';
-import { app } from '../app.js';
+//import { app } from '../app.js';
 import { ASSETS } from '../constants.js';
 import { PlayerFish } from '../entities/Players.js';
 import { SmallFish } from '../entities/Enemy.js';
 import { BigFish } from '../entities/Big_Fish.js';
 import { GameStats } from '../utils/GameStats.js';
-import { getRandomPosition } from '../utils/Helpers.js';
+//import { getRandomPosition } from '../utils/Helpers.js';
 import { LevelSystem } from '../systems/LevelSystem.js';
 import { CollisionSystem } from '../systems/CollisionSystem.js';
 import { SpawnSystem } from '../utils/SpawnSystem.js';
 import { getRandomInt } from '../utils/Helpers.js';
+import { BubbleEffect } from '../effects/BubbleEffect.js';
+//import { createBubbleEmitter } from '../effects/BubbleEmitter.js';
 
 export class GameScene {
   constructor(appInstance) {
@@ -22,6 +23,7 @@ export class GameScene {
     this.spawnSystem = null;
     this.collisionSystem = null;
     this.startTime = Date.now();
+    this.effects = []; 
   }
 
   start() {
@@ -32,9 +34,6 @@ export class GameScene {
     bg.width = this.app.screen.width;
     bg.height = this.app.screen.height;
     this.container.addChild(bg);
-
-    // Seaweed & Coral
-    /*this.addDecorations();*/
 
     // Player
     this.player = new PlayerFish();
@@ -75,6 +74,16 @@ export class GameScene {
         this.container.removeChild(enemy.sprite);
         this.enemies = this.enemies.filter(e => e !== enemy);
         this.stats.addScore(10);
+        
+        // Thêm hiệu ứng bong bóng
+        this.effects.push(new BubbleEffect(enemy.sprite.x, enemy.sprite.y, this.container));
+
+        //  Thêm emitter mới:
+       /* const emitter = createBubbleEmitter(enemy.sprite.x, enemy.sprite.y, this.container);
+        if (emitter) {
+          this.effects.push(emitter);
+        }
+        */
       }
     }
 
@@ -101,6 +110,26 @@ export class GameScene {
     }
 
     this.collisionSystem.update(activeObjects);
+
+    // Thủ công bong bóng
+    this.effects.forEach(e => e.update(delta));
+    this.effects = this.effects.filter(e => !e.isDone);
+
+    // Emitter bong bóng
+    this.effects.forEach(emitter => {
+      try {
+        emitter.update(delta * (1 / 60)); // chuẩn hóa FPS
+      } catch (e) {
+        console.warn("Emitter error:", e);
+      }
+    });
+    
+
+    // Giữ lại emitter chưa kết thúc
+    //this.effects = this.effects.filter(e => !e._destroyed);
+              
+    
+
 
     if (this.player.isDead()) {
       import('../scene/GameOverScene.js').then(module => {
@@ -144,23 +173,5 @@ export class GameScene {
     this.player.sprite.y = this.app.screen.height / 2;
   }
   
- /* addDecorations() {
-    for (let i = 0; i < 3; i++) {
-      const weed = new PIXI.Sprite(PIXI.Texture.from(ASSETS.seaweed));
-      weed.anchor.set(0.5, 1);
-      weed.x = 50;
-      weed.y = this.app.screen.height - 50 - i * 60;
-      this.container.addChild(weed);
-    }
-
-    for (let i = 0; i < 3; i++) {
-      const coral = new PIXI.Sprite(PIXI.Texture.from(ASSETS.coral));
-      coral.anchor.set(0.5, 1);
-      coral.x = this.app.screen.width - 50;
-      coral.y = this.app.screen.height - 60 - i * 60;
-      this.container.addChild(coral);
-    }
-  }*/
-
 
 }

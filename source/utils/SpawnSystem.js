@@ -12,12 +12,12 @@ export class SpawnSystem {
       pearl: 0,
       crab: 0
     };
-    this.spawnCrab(); // ✅ gọi sớm để cua xuất hiện từ đầu
+    this.spawnCrab(); //  gọi sớm để cua xuất hiện từ đầu
   }
 
   update(delta, currentTime) {
     // Snake mỗi 10s
-    if (currentTime - this.timers.snake > 10_000) {
+    if (currentTime - this.timers.snake > 20_000) {
       this.spawnSnake();
       this.timers.snake = currentTime;
     }

@@ -12,7 +12,7 @@ export const ASSETS = {
     big_organe_fish: 'assets/image/bigfish/big_organe_fish.png',
   
     // Environment
-    background: 'assets/image/background/back_ground.png',
+    background: 'assets/image/background/play/back_ground.png',
     seaweed: 'assets/image/otherspices/seaweed.png',
     coral: 'assets/image/otherspices/coral.png',
   
@@ -30,8 +30,11 @@ export const ASSETS = {
     levelup_sound: 'assets/sounds/levelup.mp3',
     back_ground: 'aassets/sounds/background.mp3',
 
-  
-    playerAtlas: 'assets/sprite/texture.json', // ✅ thêm dòng này
+    // Sprite sheet
+    playerAtlas: 'assets/sprite/texture.json', 
+
+    // Effects
+    bubble: 'assets/image/effects/bubble.png',
 
 
   };
