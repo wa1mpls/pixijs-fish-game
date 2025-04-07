@@ -1,11 +1,19 @@
-//import * as PIXI from 'pixi.js';
 import { ASSETS } from '../constants.js';
 
 export class PlayerFish {
   constructor() {
-    this.sprite = new PIXI.Sprite(PIXI.Texture.from(ASSETS.user_fish));
+    // 👉 Lấy 5 frame từ sprite sheet (texture.json)
+    const frames = [];
+    for (let i = 0; i < 5; i++) {
+      frames.push(PIXI.Texture.from(`user_fish ${i}.png`));
+    }
+
+    // 👉 Tạo AnimatedSprite
+    this.sprite = new PIXI.AnimatedSprite(frames);
     this.sprite.anchor.set(0.5);
-    this.sprite.scale.set(1); // scale ban đầu
+    this.sprite.animationSpeed = 0.05;
+    this.sprite.play(); // Bắt đầu animation
+
     this.speed = 14;
     this.target = { x: this.sprite.x, y: this.sprite.y };
     this.hitCount = 0;
@@ -14,7 +22,7 @@ export class PlayerFish {
   setTarget(x, y) {
     this.target = { x, y };
 
-    // Lật hướng nếu đi ngược
+    // 👉 Lật sprite khi di chuyển
     if (x < this.sprite.x) {
       this.sprite.scale.x = -Math.abs(this.sprite.scale.x);
     } else {
@@ -26,20 +34,17 @@ export class PlayerFish {
     const dx = this.target.x - this.sprite.x;
     const dy = this.target.y - this.sprite.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
-  
-    // ✅ Nếu đã rất gần mục tiêu thì gắn luôn vị trí → tránh giật
+
     if (dist < this.speed * delta) {
       this.sprite.x = this.target.x;
       this.sprite.y = this.target.y;
       return;
     }
-  
-    // ✅ Di chuyển mượt về phía target
+
     const angle = Math.atan2(dy, dx);
     this.sprite.x += Math.cos(angle) * this.speed * delta;
     this.sprite.y += Math.sin(angle) * this.speed * delta;
   }
-  
 
   grow() {
     const currentScale = this.sprite.scale.y;
