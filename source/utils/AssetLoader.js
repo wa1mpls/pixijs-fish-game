@@ -1,5 +1,8 @@
 //import * as PIXI from 'pixi.js';
+
 import { ASSETS } from '../constants.js';
+
+//const PIXI = window.PIXI;
 
 export function loadAssets() {
     return new Promise(async (resolve) => {
