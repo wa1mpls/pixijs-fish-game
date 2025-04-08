@@ -1,5 +1,5 @@
 import { loadAssets } from './utils/AssetLoader.js';
-import { GameScene } from './scene/GameScene.js';
+import { MenuScene } from './scene/MenuScene.js';
 //import * as PIXI from 'https://cdn.jsdelivr.net/npm/pixi.js@7.2.4/+esm';
 
 // Tạo app Pixi với auto-resize
@@ -21,8 +21,10 @@ let isMusicPlaying = false;
 // ✅ Chạy game sau khi load xong assets
 async function start() {
   await loadAssets();
-  const game = new GameScene(app);
-  game.start();
+  // const game = new GameScene(app);
+  // game.start();
+  const startScene = new MenuScene(app); 
+  startScene.show();
 
   // ✅ Phát nhạc sau khi game khởi động
   backgroundMusic.play().then(() => {

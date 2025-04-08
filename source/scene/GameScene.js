@@ -10,6 +10,7 @@ import { CollisionSystem } from '../systems/CollisionSystem.js';
 import { SpawnSystem } from '../utils/SpawnSystem.js';
 import { getRandomInt } from '../utils/Helpers.js';
 import { BubbleEffect } from '../effects/BubbleEffect.js';
+import { exitButton } from '../utils/ExitButton.js';
 //import { createBubbleEmitter } from '../effects/BubbleEmitter.js';
 
 export class GameScene {
@@ -24,6 +25,7 @@ export class GameScene {
     this.collisionSystem = null;
     this.startTime = Date.now();
     this.effects = []; 
+    this.isGameOver = false;
   }
 
   start() {
@@ -62,9 +64,22 @@ export class GameScene {
 
     // Game loop
     this.app.ticker.add((delta) => this.update(delta));
+
+    //nut exit
+    const exit = exitButton(this.app, () => {
+      this.isGameOver = true;
+      this.app.stage.removeChildren();
+      import('./MenuScene.js').then(module => {
+        const startScene = new module.MenuScene(this.app);
+        startScene.show();
+      });
+    });
+  
+    this.container.addChild(exit);
   }
 
   update(delta) {
+    if (this.isGameOver) return;
     this.player.update(delta);
 
     for (const enemy of this.enemies) {
@@ -74,10 +89,10 @@ export class GameScene {
         if (!enemy.isBig && enemy.level < this.player.level) {
           this.container.removeChild(enemy.sprite);
           this.enemies = this.enemies.filter(e => e !== enemy);
-          this.stats.addScore(10);
-
           // Thêm hiệu ứng bong bóng
           this.effects.push(new BubbleEffect(enemy.sprite.x, enemy.sprite.y, this.container));
+          this.stats.addScore(10);
+        }
         }
         //  Thêm emitter mới:
        /* const emitter = createBubbleEmitter(enemy.sprite.x, enemy.sprite.y, this.container);
@@ -132,6 +147,8 @@ export class GameScene {
         const over = new module.GameOverScene(this.stats.score);
         over.show();
       });
+      
+      this.isGameOver = true;
     }
   }
 

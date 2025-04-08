@@ -23,6 +23,8 @@ export const ASSETS = {
   
     // UI (nếu cần)
     start_screen: 'assets/image/background/start.game.png',
+    star_game_background: 'assets/image/background/start/star_game_background.png',
+    start_button: 'assets/image/background/start/start_button.png',
   
     // Sounds (nếu dùng Pixi sound hoặc Web Audio API)
     eat_sound: 'assets/sounds/eat.mp3',

@@ -63,6 +63,7 @@ export class PlayerFish {
   }
 
   isDead() {
+    this.isGameOver = true;
     return this.hitCount >= 3;
   }
 }
