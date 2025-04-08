@@ -137,6 +137,7 @@ export class GameScene {
   }
 
   
+
   spawnEnemies(count) {
     for (let i = 0; i < count; i++) {
       const isBig = Math.random() < 0.2; // 20% là cá lớn
@@ -164,6 +165,7 @@ export class GameScene {
       // Nếu enemy có set hướng bơi thì gán ngẫu nhiên
       if (enemy.setDirection) {
         enemy.setDirection(this.player.sprite.x, this.player.sprite.y);
+
       }
   
       this.enemies.push(enemy);

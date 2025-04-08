@@ -57,8 +57,8 @@ export class SpawnSystem {
     sprite.x = x;
     sprite.y = y;
 
-    const baseScale = 1.5;
-    const speed = Math.random() * 2 + 4 ;
+    const baseScale = 1;
+    const speed = Math.random() * 2 + 1 ;
 
     const snake = {
       type: 'snake',

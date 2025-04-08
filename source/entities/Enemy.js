@@ -24,9 +24,8 @@ export class SmallFish {
 
     // Cấp độ cá và scale
     const level = Math.random() < 0.5 ? 1 : 2;
-    const baseScale = 0.5;
+    const baseScale = 0.25;
     this.level = level;
-    this.type = this.level === 1 ? 'small_fish' : 'same_size_fish';
     this.size = baseScale * Math.pow(2, level - 1);
 
     // ↔ Hướng di chuyển
@@ -38,7 +37,7 @@ export class SmallFish {
 
     //  Kiểu di chuyển ban đầu: ngang, dọc hoặc chéo
     this.moveType = getRandomFromArray(['horizontal', 'vertical', 'diagonal']);
-    this.speed = getRandomFloat(6, 10);
+    this.speed = getRandomFloat(2, 4);
 
     //  Đổi hướng kiểu di chuyển sau 10–15s
     this.changeDirectionTimer = 0;

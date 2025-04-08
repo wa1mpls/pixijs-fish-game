@@ -17,6 +17,9 @@ export class PlayerFish {
     this.speed = 14;
     this.target = { x: this.sprite.x, y: this.sprite.y };
     this.hitCount = 0;
+    this.level = 2;
+    this.lastHit = 0;
+    this.sprite.scale.set(0.4, 0.4); 
   }
 
   setTarget(x, y) {
@@ -48,13 +51,16 @@ export class PlayerFish {
 
   grow() {
     const currentScale = this.sprite.scale.y;
-    this.sprite.scale.set(currentScale * 1.2 * Math.sign(this.sprite.scale.x), currentScale * 1.2);
+    if (this.level < 4) {
+      if (this.level === 3){
+        this.sprite.scale.set(currentScale * 1.5 * Math.sign(this.sprite.scale.x), currentScale * 1.5);
+      }
+      else {
+        this.sprite.scale.set(currentScale * 2.2 * Math.sign(this.sprite.scale.x), currentScale * 2.2);
+      }
+      this.level ++;
+    }
   }
-
-  shrink() {
-    const currentScale = this.sprite.scale.y;
-    this.sprite.scale.set(currentScale * 0.5 * Math.sign(this.sprite.scale.x), currentScale * 0.5);
-   }
 
   isDead() {
     return this.hitCount >= 3;
