@@ -37,6 +37,17 @@ export class GameScene {
     bg.height = this.app.screen.height;
     this.container.addChild(bg);
 
+    this.hearts = [];
+    for (let i = 0; i < 3; i++) {
+      const heart = new PIXI.Sprite(PIXI.Texture.from(ASSETS.heart));
+      heart.x = 20 + i * 40;
+      heart.y = 160;
+      heart.width = 55;
+      heart.height = 55;
+      this.container.addChild(heart);
+      this.hearts.push(heart);
+    }
+
     // Player
     this.player = new PlayerFish();
     this.player.sprite.x = this.app.screen.width / 2;
@@ -126,6 +137,8 @@ export class GameScene {
     }
 
     this.collisionSystem.update(activeObjects);
+    this.updateHearts();
+    
 
     // Thủ công bong bóng
     this.effects.forEach(e => e.update(delta));
@@ -186,6 +199,13 @@ export class GameScene {
     this.player.sprite.x = this.app.screen.width / 2;
     this.player.sprite.y = this.app.screen.height / 2;
   }
-  
 
+  updateHearts() {
+    if (!this.hearts || this.hearts.length === 0) return;
+  
+    for (let i = 0; i < 3; i++) {
+      this.hearts[i].visible = i < (3 - this.player.hitCount);
+    }
+  }
+  
 }

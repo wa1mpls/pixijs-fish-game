@@ -37,6 +37,7 @@ export const ASSETS = {
 
     // Effects
     bubble: 'assets/image/effects/bubble.png',
+    heart: 'assets/image/effects/heart.png'
 
 
   };
