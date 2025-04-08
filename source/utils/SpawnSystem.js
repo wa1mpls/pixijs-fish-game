@@ -39,7 +39,21 @@ export class SpawnSystem {
     const sprite = new PIXI.Sprite(PIXI.Texture.from(ASSETS.snake));
     sprite.anchor.set(0.5);
 
-    const { x, y } = getRandomPosition({ width: window.innerWidth, height: window.innerHeight });
+    // Xuất phát từ rìa màn hình (trái, phải hoặc trên)
+    let x, y;
+    const side = Math.floor(Math.random() * 3);
+    if (side === 0) { //trái
+      x = -50;
+      y = Math.random() * window.innerHeight;
+    } else if (side === 1) { //phải
+      x = window.innerWidth + 50;
+      y = Math.random() * window.innerHeight;
+    } else { //trên
+      x = Math.random() * window.innerWidth;
+      y = -50;
+    }
+    
+
     sprite.x = x;
     sprite.y = y;
 
@@ -118,7 +132,7 @@ export class SpawnSystem {
         this.sprite.x += this.speed * this.directionX * delta;
         this.sprite.y += this.speed * this.directionY * delta;
 
-        if (this.sprite.x < 20 || this.sprite.x > window.innerWidth - 20) {
+        if (this.sprite.x < -100 || this.sprite.x > window.innerWidth +100) {
           this.directionX *= -1;
           this.sprite.scale.x = Math.abs(this.sprite.scale.x) * this.directionX;
         }
