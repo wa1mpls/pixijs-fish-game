@@ -42,7 +42,7 @@ export class GameScene {
     this.container.addChild(this.player.sprite);
 
     // Enemies khởi đầu
-    const initialCount = getRandomInt(15, 30); // 👈 tạo số random cá khởi đầu
+    const initialCount = getRandomInt(15, 20); //  tạo số random cá khởi đầu
     this.spawnEnemies(initialCount);
 
     // Hệ thống phụ
@@ -75,11 +75,10 @@ export class GameScene {
           this.container.removeChild(enemy.sprite);
           this.enemies = this.enemies.filter(e => e !== enemy);
           this.stats.addScore(10);
-        }
-   
-        // Thêm hiệu ứng bong bóng
-        this.effects.push(new BubbleEffect(enemy.sprite.x, enemy.sprite.y, this.container));
 
+          // Thêm hiệu ứng bong bóng
+          this.effects.push(new BubbleEffect(enemy.sprite.x, enemy.sprite.y, this.container));
+        }
         //  Thêm emitter mới:
        /* const emitter = createBubbleEmitter(enemy.sprite.x, enemy.sprite.y, this.container);
         if (emitter) {
@@ -91,7 +90,7 @@ export class GameScene {
 
     // Giữ số lượng cá liên tục
     if (this.enemies.length < 15) {
-      this.spawnEnemies(getRandomInt(1, 3));
+      this.spawnEnemies(getRandomInt(5, 10));
     }
     
     this.levelSystem.update();
@@ -137,10 +136,9 @@ export class GameScene {
   }
 
   
-
   spawnEnemies(count) {
     for (let i = 0; i < count; i++) {
-      const isBig = Math.random() < 0.2; // 20% là cá lớn
+      const isBig = Math.random() < 0.15; // 20% là cá lớn
       const enemy = isBig ? new BigFish() : new SmallFish();
       enemy.type = isBig ? 'big_fish' : 'small_fish';
   
@@ -188,7 +186,7 @@ export class GameScene {
     }
     this.enemies = [];
   
-    const randomCount = getRandomInt(15, 30); // 👈 random lại
+    const randomCount = getRandomInt(15, 20); // 👈 random lại
     this.spawnEnemies(randomCount);
   
     this.player.sprite.x = this.app.screen.width / 2;
