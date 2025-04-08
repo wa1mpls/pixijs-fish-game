@@ -62,6 +62,7 @@ export class CollisionSystem {
         if (this.player.isDead()) {
           const over = new GameOverScene(this.stats.score);
           over.show();
+          this.isGameOver = true;
         }
       }
     } else {
@@ -72,6 +73,7 @@ export class CollisionSystem {
   handleSnake() {
     const over = new GameOverScene(this.stats.score);
     over.show();
+    this.isGameOver = true;
   }
 
   handleCrab(crab) {
@@ -94,6 +96,10 @@ export class CollisionSystem {
     if (!fish.sprite.visible) return; 
 
     fish.sprite.visible = false;
+
+    const score = 10 * Math.pow(2, fish.level - 1);
+    this.stats.addScore(score);
+
     this.stats.fishEaten++;
   
     if (fish.level === this.player.level) {
