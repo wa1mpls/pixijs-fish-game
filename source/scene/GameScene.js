@@ -77,7 +77,7 @@ export class GameScene {
           this.stats.addScore(10);
         }
    
-            // Thêm hiệu ứng bong bóng
+        // Thêm hiệu ứng bong bóng
         this.effects.push(new BubbleEffect(enemy.sprite.x, enemy.sprite.y, this.container));
 
         //  Thêm emitter mới:
@@ -113,7 +113,7 @@ export class GameScene {
 
     this.collisionSystem.update(activeObjects);
 
-    // Thủ công bong bóng
+    // Bong bóng thủ công
     this.effects.forEach(e => e.update(delta));
     this.effects = this.effects.filter(e => !e.isDone);
 
@@ -124,10 +124,9 @@ export class GameScene {
       } catch (e) {
         console.warn("Emitter error:", e);
       }
-    });*/
-    
+    });    
     // Giữ lại emitter chưa kết thúc
-    //this.effects = this.effects.filter(e => !e._destroyed);
+    this.effects = this.effects.filter(e => !e._destroyed);*/
             
     if (this.player.isDead()) {
       import('../scene/GameOverScene.js').then(module => {
@@ -138,16 +137,39 @@ export class GameScene {
   }
 
   
-    spawnEnemies(count) {
-      for (let i = 0; i < count; i++) {
-        const isBig = Math.random() < 0.3; // 30% là cá bự
-        const enemy = isBig ? new BigFish() : new SmallFish();
-        enemy.type = isBig ? 'big_fish' : 'small_fish';
-        this.enemies.push(enemy);
-        this.container.addChild(enemy.sprite);
+  spawnEnemies(count) {
+    for (let i = 0; i < count; i++) {
+      const isBig = Math.random() < 0.2; // 20% là cá lớn
+      const enemy = isBig ? new BigFish() : new SmallFish();
+      enemy.type = isBig ? 'big_fish' : 'small_fish';
+  
+      // Spawn từ rìa màn hình
+      let x, y;
+      const side = Math.floor(Math.random() * 3); // 0: trái, 1: phải, 2: trên
+      
+      if (side === 0) {
+        x = -50;
+        y = Math.random() * this.app.screen.height;
+      } else if (side === 1) {
+        x = this.app.screen.width + 50;
+        y = Math.random() * this.app.screen.height;
+      } else {
+        x = Math.random() * this.app.screen.width;
+        y = -50;
       }
+  
+      enemy.sprite.x = x;
+      enemy.sprite.y = y;
+  
+      // Nếu enemy có set hướng bơi thì gán ngẫu nhiên
+      if (enemy.setDirection) {
+        enemy.setDirection(this.player.sprite.x, this.player.sprite.y);
+      }
+  
+      this.enemies.push(enemy);
+      this.container.addChild(enemy.sprite);
     }
-    
+  }
 
   hitTest(a, b) {
     const ab = a.getBounds();
