@@ -12,38 +12,38 @@ const SMALL_FISH_KEYS = [
 
 export class SmallFish {
   constructor() {
-    // 🎨 Chọn ngẫu nhiên 1 texture cá bé
+    // Chọn ngẫu nhiên 1 texture cá bé
     const textureKey = getRandomFromArray(SMALL_FISH_KEYS);
     this.sprite = new PIXI.Sprite(PIXI.Texture.from(ASSETS[textureKey]));
     this.sprite.anchor.set(0.5);
 
-    // 📍 Vị trí ban đầu random
+    // Vị trí ban đầu random
     const { x, y } = getRandomPosition({ width: window.innerWidth, height: window.innerHeight });
     this.sprite.x = x;
     this.sprite.y = y;
 
-    // ⚖️ Cấp độ cá và scale
+    // Cấp độ cá và scale
     const level = Math.random() < 0.5 ? 1 : 2;
     const baseScale = 0.25;
     this.level = level;
     this.size = baseScale * Math.pow(2, level - 1);
 
-    // ↔️↕️ Hướng di chuyển
+    // ↔ Hướng di chuyển
     this.directionX = Math.random() < 0.5 ? -1 : 1;
     this.directionY = Math.random() < 0.5 ? -1 : 1;
     this.sprite.scale.set(this.size * this.directionX, this.size);
 
     this.isBig = false;
 
-    // 🚶‍♂️ Kiểu di chuyển ban đầu: ngang, dọc hoặc chéo
+    //  Kiểu di chuyển ban đầu: ngang, dọc hoặc chéo
     this.moveType = getRandomFromArray(['horizontal', 'vertical', 'diagonal']);
     this.speed = getRandomFloat(2, 4);
 
-    // ⏱️ Đổi hướng kiểu di chuyển sau 10–15s
+    //  Đổi hướng kiểu di chuyển sau 10–15s
     this.changeDirectionTimer = 0;
     this.changeDirectionInterval = getRandomFloat(10000, 15000);
 
-    // 🔁 Quay đầu tạm thời rồi có thể quay lại
+    //  Quay đầu tạm thời rồi có thể quay lại
     this.isTurningBack = false;
     this.turnBackTimer = 0;
     this.turnBackDuration = 0;
@@ -54,7 +54,7 @@ export class SmallFish {
   update(delta) {
     const cappedDelta = Math.min(delta, 2);
 
-    // 🔄 Xác suất quay đầu ngẫu nhiên
+    //  Xác suất quay đầu ngẫu nhiên
     if (!this.isTurningBack && Math.random() < 0.1) {
       this.prevDirectionX = this.directionX;
       this.prevDirectionY = this.directionY;
@@ -72,7 +72,7 @@ export class SmallFish {
       this.turnBackDuration = getRandomFloat(1000, 2000);
     }
 
-    // ⏳ Sau khi quay đầu xong có thể quay lại hướng cũ
+    //  Sau khi quay đầu xong có thể quay lại hướng cũ
     if (this.isTurningBack) {
       this.turnBackTimer += cappedDelta * 16.67;
       if (this.turnBackTimer >= this.turnBackDuration) {
@@ -89,7 +89,7 @@ export class SmallFish {
       }
     }
 
-    // 🔁 Đổi kiểu di chuyển (ngang/dọc/chéo)
+    //  Đổi kiểu di chuyển (ngang/dọc/chéo)
     this.changeDirectionTimer += cappedDelta * 16.67;
     if (this.changeDirectionTimer > this.changeDirectionInterval) {
       this.changeDirectionTimer = 0;
@@ -97,7 +97,7 @@ export class SmallFish {
       this.moveType = getRandomFromArray(['horizontal', 'vertical', 'diagonal']);
     }
 
-    // 🚶‍♂️ Di chuyển + xử lý giới hạn viền màn hình
+    // 🚶 Di chuyển + xử lý giới hạn viền màn hình
     if (this.moveType === 'horizontal') {
       this.sprite.x += this.speed * this.directionX * delta;
 
