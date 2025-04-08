@@ -54,8 +54,7 @@ export class PlayerFish {
   shrink() {
     const currentScale = this.sprite.scale.y;
     this.sprite.scale.set(currentScale * 0.5 * Math.sign(this.sprite.scale.x), currentScale * 0.5);
-    this.hitCount++;
-  }
+   }
 
   isDead() {
     return this.hitCount >= 3;

@@ -71,11 +71,13 @@ export class GameScene {
       enemy.update(delta);
 
       if (this.hitTest(this.player.sprite, enemy.sprite)) {
-        this.container.removeChild(enemy.sprite);
-        this.enemies = this.enemies.filter(e => e !== enemy);
-        this.stats.addScore(10);
-        
-        // Thêm hiệu ứng bong bóng
+        if (!enemy.isBig && enemy.level < this.player.level) {
+          this.container.removeChild(enemy.sprite);
+          this.enemies = this.enemies.filter(e => e !== enemy);
+          this.stats.addScore(10);
+        }
+   
+            // Thêm hiệu ứng bong bóng
         this.effects.push(new BubbleEffect(enemy.sprite.x, enemy.sprite.y, this.container));
 
         //  Thêm emitter mới:
@@ -116,21 +118,17 @@ export class GameScene {
     this.effects = this.effects.filter(e => !e.isDone);
 
     // Emitter bong bóng
-    this.effects.forEach(emitter => {
+    /*this.effects.forEach(emitter => {
       try {
         emitter.update(delta * (1 / 60)); // chuẩn hóa FPS
       } catch (e) {
         console.warn("Emitter error:", e);
       }
-    });
+    });*/
     
-
     // Giữ lại emitter chưa kết thúc
     //this.effects = this.effects.filter(e => !e._destroyed);
-              
-    
-
-
+            
     if (this.player.isDead()) {
       import('../scene/GameOverScene.js').then(module => {
         const over = new module.GameOverScene(this.stats.score);

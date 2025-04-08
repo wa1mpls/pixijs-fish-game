@@ -54,6 +54,7 @@ export class CollisionSystem {
 
   handleBigFish(enemy) {
     this.player.shrink();
+    this.player.hitCount++;
     if (this.player.isDead()) {
       const over = new GameOverScene(this.stats.score);
       over.show();
@@ -67,7 +68,7 @@ export class CollisionSystem {
 
   handleCrab(crab) {
     const id = crab.id || crab.sprite._uid || crab.sprite.texture.textureCacheIds[0];
-
+    
     if (!this.cuaHitCount.has(id)) this.cuaHitCount.set(id, 1);
     else this.cuaHitCount.set(id, this.cuaHitCount.get(id) + 1);
 
@@ -99,7 +100,6 @@ export class CollisionSystem {
       this.stats.smallerCount = 0;
     }
   
-    console.log('Same size:', this.stats.sameSizeCount, 'Smaller:', this.stats.smallerCount);
   }
   
   
