@@ -140,7 +140,7 @@ export class GameScene {
   
     spawnEnemies(count) {
       for (let i = 0; i < count; i++) {
-        const isBig = Math.random() < 0.3; // 30% là cá bự
+        const isBig = Math.random() < 0.15; // 15% là cá bự
         const enemy = isBig ? new BigFish() : new SmallFish();
         enemy.type = isBig ? 'big_fish' : 'small_fish';
         this.enemies.push(enemy);

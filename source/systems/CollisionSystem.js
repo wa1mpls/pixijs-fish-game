@@ -35,8 +35,7 @@ export class CollisionSystem {
             break;
 
           case 'small_fish':
-            case 'same_size_fish':
-              this.handleEdibleFish(obj);
+              this.handleSmallFish(obj);
               break;
         }
       }
@@ -53,11 +52,20 @@ export class CollisionSystem {
   }
 
   handleBigFish(enemy) {
-    this.player.shrink();
-    this.player.hitCount++;
-    if (this.player.isDead()) {
-      const over = new GameOverScene(this.stats.score);
-      over.show();
+    const now = Date.now();
+    const immuneTime = 1000; // 1s miễn nhiễm sau khi đụng
+
+    if (enemy.level > this.player.level) {
+      if (now - this.player.lastHit >= immuneTime) {
+        this.player.hitCount++;
+        this.player.lastHit = now;
+        if (this.player.isDead()) {
+          const over = new GameOverScene(this.stats.score);
+          over.show();
+        }
+      }
+    } else {
+      this.handleSmallFish(enemy);
     }
   }
 
@@ -82,15 +90,15 @@ export class CollisionSystem {
     this.player.grow();
   }
 
-  handleEdibleFish(fish) {
+  handleSmallFish(fish) {
     if (!fish.sprite.visible) return; 
-  
+
     fish.sprite.visible = false;
     this.stats.fishEaten++;
   
-    if (fish.type === 'same_size_fish') {
+    if (fish.level === this.player.level) {
       this.stats.sameSizeCount++;
-    } else if (fish.type === 'small_fish') {
+    } else if (fish.level < this.player.level) {
       this.stats.smallerCount++;
     }
   
