@@ -101,7 +101,7 @@ export class GameScene {
         }
         */
       }
-    }
+    
 
     // Giữ số lượng cá liên tục
     if (this.enemies.length < 15) {
