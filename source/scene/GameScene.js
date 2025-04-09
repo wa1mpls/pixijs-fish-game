@@ -24,7 +24,7 @@ export class GameScene {
     this.spawnSystem = null;
     this.collisionSystem = null;
     this.startTime = Date.now();
-    this.effects = []; 
+    this.effects = [];
     this.isGameOver = false;
   }
 
@@ -57,12 +57,12 @@ export class GameScene {
     // Di chuyển theo chuột
     this.app.stage.eventMode = 'static';
     this.app.stage.hitArea = this.app.screen;
-    
+
     this.app.stage.on('pointerdown', (e) => {
       const pos = e.global;
       this.player.setTarget(pos.x, pos.y);
     });
-    
+
 
     // Game loop
     this.app.ticker.add((delta) => this.update(delta));
@@ -76,9 +76,9 @@ export class GameScene {
         startScene.show();
       });
     });
-  
+
     this.container.addChild(exit);
-    
+
     this.hearts = [];
     for (let i = 0; i < 3; i++) {
       const heart = new PIXI.Sprite(PIXI.Texture.from(ASSETS.heart));
@@ -106,128 +106,129 @@ export class GameScene {
           this.effects.push(new BubbleEffect(enemy.sprite.x, enemy.sprite.y, this.container));
         }
         //  Thêm emitter mới:
-       /* const emitter = createBubbleEmitter(enemy.sprite.x, enemy.sprite.y, this.container);
-        if (emitter) {
-          this.effects.push(emitter);
+        /* const emitter = createBubbleEmitter(enemy.sprite.x, enemy.sprite.y, this.container);
+         if (emitter) {
+           this.effects.push(emitter);
+         }
+         */
+      }
+
+
+      // Giữ số lượng cá liên tục
+      if (this.enemies.length < 15) {
+        this.spawnEnemies(getRandomInt(5, 10));
+      }
+
+      this.levelSystem.update();
+
+      const now = Date.now();
+      this.spawnSystem.update(delta, now - this.startTime);
+
+      const activeObjects = [
+        ...this.enemies,
+        ...this.spawnSystem.getObjects()
+      ];
+
+
+      for (const obj of activeObjects) {
+        if (typeof obj.update === 'function') {
+          obj.update(delta); // Cho phép rắn di chuyển
         }
-        */
       }
-    
 
-    // Giữ số lượng cá liên tục
-    if (this.enemies.length < 15) {
-      this.spawnEnemies(getRandomInt(5, 10));
-    }
-    
-    this.levelSystem.update();
+      this.collisionSystem.update(activeObjects);
+      this.updateHearts();
 
-    const now = Date.now();
-    this.spawnSystem.update(delta, now - this.startTime);
 
-    const activeObjects = [
-      ...this.enemies, 
-      ...this.spawnSystem.getObjects()
-    ];
-    
+      // Bong bóng thủ công
+      this.effects.forEach(e => e.update(delta));
+      this.effects = this.effects.filter(e => !e.isDone);
 
-    for (const obj of activeObjects) {
-      if (typeof obj.update === 'function') {
-        obj.update(delta); // Cho phép rắn di chuyển
+      // Emitter bong bóng
+      /*this.effects.forEach(emitter => {
+        try {
+          emitter.update(delta * (1 / 60)); // chuẩn hóa FPS
+        } catch (e) {
+          console.warn("Emitter error:", e);
+        }
+      });    
+      // Giữ lại emitter chưa kết thúc
+      this.effects = this.effects.filter(e => !e._destroyed);*/
+
+      if (this.player.isDead()) {
+        this.isGameOver = true;
+        import('../scene/GameOverScene.js').then(module => {
+          const over = new module.GameOverScene(this.stats.score);
+          over.show();
+        });
       }
-    }
-
-    this.collisionSystem.update(activeObjects);
-    this.updateHearts();
-    
-
-    // Bong bóng thủ công
-    this.effects.forEach(e => e.update(delta));
-    this.effects = this.effects.filter(e => !e.isDone);
-
-    // Emitter bong bóng
-    /*this.effects.forEach(emitter => {
-      try {
-        emitter.update(delta * (1 / 60)); // chuẩn hóa FPS
-      } catch (e) {
-        console.warn("Emitter error:", e);
-      }
-    });    
-    // Giữ lại emitter chưa kết thúc
-    this.effects = this.effects.filter(e => !e._destroyed);*/
-            
-    if (this.player.isDead()) {
-      this.isGameOver = true;
-      import('../scene/GameOverScene.js').then(module => {
-        const over = new module.GameOverScene(this.stats.score);
-        over.show();
-      });
     }
   }
 
-  
-  spawnEnemies(count) {
-    for (let i = 0; i < count; i++) {
-      const isBig = Math.random() < 0.15; // 20% là cá lớn
-      const enemy = isBig ? new BigFish() : new SmallFish();
-      enemy.type = isBig ? 'big_fish' : 'small_fish';
-  
-      // Spawn từ rìa màn hình
-      let x, y;
-      const side = Math.floor(Math.random() * 3); // 0: trái, 1: phải, 2: trên
-      
-      if (side === 0) {
-        x = -50;
-        y = Math.random() * this.app.screen.height;
-      } else if (side === 1) {
-        x = this.app.screen.width + 50;
-        y = Math.random() * this.app.screen.height;
-      } else {
-        x = Math.random() * this.app.screen.width;
-        y = -50;
+
+    spawnEnemies(count) {
+      for (let i = 0; i < count; i++) {
+        const isBig = Math.random() < 0.15; // 20% là cá lớn
+        const enemy = isBig ? new BigFish() : new SmallFish();
+        enemy.type = isBig ? 'big_fish' : 'small_fish';
+
+        // Spawn từ rìa màn hình
+        let x, y;
+        const side = Math.floor(Math.random() * 3); // 0: trái, 1: phải, 2: trên
+
+        if (side === 0) {
+          x = -50;
+          y = Math.random() * this.app.screen.height;
+        } else if (side === 1) {
+          x = this.app.screen.width + 50;
+          y = Math.random() * this.app.screen.height;
+        } else {
+          x = Math.random() * this.app.screen.width;
+          y = -50;
+        }
+
+        enemy.sprite.x = x;
+        enemy.sprite.y = y;
+
+        // Nếu enemy có set hướng bơi thì gán ngẫu nhiên
+        if (enemy.setDirection) {
+          enemy.setDirection(this.player.sprite.x, this.player.sprite.y);
+
+        }
+
+        this.enemies.push(enemy);
+        this.container.addChild(enemy.sprite);
       }
-  
-      enemy.sprite.x = x;
-      enemy.sprite.y = y;
-  
-      // Nếu enemy có set hướng bơi thì gán ngẫu nhiên
-      if (enemy.setDirection) {
-        enemy.setDirection(this.player.sprite.x, this.player.sprite.y);
+    }
 
+    hitTest(a, b) {
+      const ab = a.getBounds();
+      const bb = b.getBounds();
+      return ab.x + ab.width > bb.x &&
+        ab.x < bb.x + bb.width &&
+        ab.y + ab.height > bb.y &&
+        ab.y < bb.y + bb.height;
+    }
+
+    resetSceneForNextLevel() {
+      for (const e of this.enemies) {
+        this.container.removeChild(e.sprite);
       }
-  
-      this.enemies.push(enemy);
-      this.container.addChild(enemy.sprite);
-    }
-  }
+      this.enemies = [];
 
-  hitTest(a, b) {
-    const ab = a.getBounds();
-    const bb = b.getBounds();
-    return ab.x + ab.width > bb.x &&
-           ab.x < bb.x + bb.width &&
-           ab.y + ab.height > bb.y &&
-           ab.y < bb.y + bb.height;
-  }
+      const randomCount = getRandomInt(15, 20); // 👈 random lại
+      this.spawnEnemies(randomCount);
 
-  resetSceneForNextLevel() {
-    for (const e of this.enemies) {
-      this.container.removeChild(e.sprite);
+      this.player.sprite.x = this.app.screen.width / 2;
+      this.player.sprite.y = this.app.screen.height / 2;
     }
-    this.enemies = [];
-  
-    const randomCount = getRandomInt(15, 20); // 👈 random lại
-    this.spawnEnemies(randomCount);
-  
-    this.player.sprite.x = this.app.screen.width / 2;
-    this.player.sprite.y = this.app.screen.height / 2;
-  }
 
-  updateHearts() {
-    if (!this.hearts || this.hearts.length === 0) return;
-  
-    for (let i = 0; i < 3; i++) {
-      this.hearts[i].visible = i < (3 - this.player.hitCount);
+    updateHearts() {
+      if (!this.hearts || this.hearts.length === 0) return;
+
+      for (let i = 0; i < 3; i++) {
+        this.hearts[i].visible = i < (3 - this.player.hitCount);
+      }
     }
+
   }
-  
-}
