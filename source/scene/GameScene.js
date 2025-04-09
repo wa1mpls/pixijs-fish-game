@@ -19,7 +19,7 @@ export class GameScene {
     this.container = new PIXI.Container();
     this.player = null;
     this.enemies = [];
-    this.stats = new GameStats();
+    this.stats = new GameStats(this);
     this.levelSystem = null;
     this.spawnSystem = null;
     this.collisionSystem = null;
@@ -29,6 +29,8 @@ export class GameScene {
   }
 
   start() {
+    document.getElementById('ui').style.display = 'block';
+
     this.app.stage.addChild(this.container);
 
     // Background
@@ -36,17 +38,6 @@ export class GameScene {
     bg.width = this.app.screen.width;
     bg.height = this.app.screen.height;
     this.container.addChild(bg);
-
-    this.hearts = [];
-    for (let i = 0; i < 3; i++) {
-      const heart = new PIXI.Sprite(PIXI.Texture.from(ASSETS.heart));
-      heart.x = 20 + i * 40;
-      heart.y = 160;
-      heart.width = 55;
-      heart.height = 55;
-      this.container.addChild(heart);
-      this.hearts.push(heart);
-    }
 
     // Player
     this.player = new PlayerFish();
@@ -87,6 +78,17 @@ export class GameScene {
     });
   
     this.container.addChild(exit);
+    
+    this.hearts = [];
+    for (let i = 0; i < 3; i++) {
+      const heart = new PIXI.Sprite(PIXI.Texture.from(ASSETS.heart));
+      heart.x = 20 + i * 40;
+      heart.y = 160;
+      heart.width = 55;
+      heart.height = 55;
+      this.container.addChild(heart);
+      this.hearts.push(heart);
+    }
   }
 
   update(delta) {
@@ -98,12 +100,10 @@ export class GameScene {
 
       if (this.hitTest(this.player.sprite, enemy.sprite)) {
         if (!enemy.isBig && enemy.level < this.player.level) {
-          this.container.removeChild(enemy.sprite);
-          this.enemies = this.enemies.filter(e => e !== enemy);
+          //this.container.removeChild(enemy.sprite);
+          //this.enemies = this.enemies.filter(e => e !== enemy);
           // Thêm hiệu ứng bong bóng
           this.effects.push(new BubbleEffect(enemy.sprite.x, enemy.sprite.y, this.container));
-          this.stats.addScore(10);
-        }
         }
         //  Thêm emitter mới:
        /* const emitter = createBubbleEmitter(enemy.sprite.x, enemy.sprite.y, this.container);
@@ -156,12 +156,11 @@ export class GameScene {
     this.effects = this.effects.filter(e => !e._destroyed);*/
             
     if (this.player.isDead()) {
+      this.isGameOver = true;
       import('../scene/GameOverScene.js').then(module => {
         const over = new module.GameOverScene(this.stats.score);
         over.show();
       });
-      
-      this.isGameOver = true;
     }
   }
 

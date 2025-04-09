@@ -32,6 +32,7 @@ export class MenuScene {
   }
 
   show() {
+    document.getElementById('ui').style.display = 'none';
     app.stage.removeChildren();
     app.stage.addChild(this.container);
   }

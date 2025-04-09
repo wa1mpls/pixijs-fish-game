@@ -1,19 +1,20 @@
 // Score, Level, Fish count management
 export class GameStats {
-    constructor() {
-      this.reset();
-    }
+  constructor(gameScene) {
+    this.gameScene = gameScene;
+    this.reset();
+  }
   
     reset() {
       this.score = 0;
       this.level = 1;
       this.fishEaten = 0;
-      this.sameSizeCount = 0;
       this.smallerCount = 0;
       this.updateUI();
     }
   
     addScore(amount) {
+      if (this.gameScene.isGameOver) return;
       this.score += amount;
       this.fishEaten++;
       this.updateUI();
