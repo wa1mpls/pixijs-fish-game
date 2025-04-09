@@ -1,5 +1,6 @@
 // GameOverScene Logic Placeholder
 //import * as PIXI from 'pixi.js';
+import { GameScene } from './GameScene.js';
 import { app } from '../app.js';
 
 export class GameOverScene {
@@ -60,7 +61,9 @@ export class GameOverScene {
     this.container.interactive = true;
     this.container.buttonMode = true;
     this.container.on('pointerdown', () => {
-      window.location.reload();
+      app.stage.removeChildren(); 
+      const game = new GameScene(app);
+      game.start();
     });
   }
 
