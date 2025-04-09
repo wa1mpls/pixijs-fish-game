@@ -68,6 +68,7 @@ export class GameOverScene {
   }
 
   show() {
+    document.getElementById('ui').style.display = 'none';
     app.stage.removeChildren(); // clear hết
     app.stage.addChild(this.container);
   }

@@ -51,9 +51,12 @@ export class PlayerFish {
 
   grow() {
     const currentScale = this.sprite.scale.y;
-    if (this.level < 4) {
-      if (this.level === 3){
+    if (this.level < 5) {
+      if (this.level === 3) {
         this.sprite.scale.set(currentScale * 1.5 * Math.sign(this.sprite.scale.x), currentScale * 1.5);
+      }
+      else if (this.level === 4) {
+        this.sprite.scale.set(currentScale * Math.sign(this.sprite.scale.x), currentScale);
       }
       else {
         this.sprite.scale.set(currentScale * 2.2 * Math.sign(this.sprite.scale.x), currentScale * 2.2);
@@ -63,7 +66,6 @@ export class PlayerFish {
   }
 
   isDead() {
-    this.isGameOver = true;
     return this.hitCount >= 3;
   }
 }

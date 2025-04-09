@@ -60,9 +60,9 @@ export class CollisionSystem {
         this.player.hitCount++;
         this.player.lastHit = now;
         if (this.player.isDead()) {
+          this.isGameOver = true;
           const over = new GameOverScene(this.stats.score);
           over.show();
-          this.isGameOver = true;
         }
       }
     } else {
@@ -71,9 +71,9 @@ export class CollisionSystem {
   }
 
   handleSnake() {
+    this.isGameOver = true;
     const over = new GameOverScene(this.stats.score);
     over.show();
-    this.isGameOver = true;
   }
 
   handleCrab(crab) {
@@ -93,28 +93,23 @@ export class CollisionSystem {
   }
 
   handleSmallFish(fish) {
-    if (!fish.sprite.visible) return; 
+    if (!fish || !fish.sprite || !fish.sprite.visible) return;
+
+    if (fish.level >= this.player.level) return;
 
     fish.sprite.visible = false;
 
     const score = 10 * Math.pow(2, fish.level - 1);
     this.stats.addScore(score);
+    this.stats.smallerCount++;
 
-    this.stats.fishEaten++;
-  
-    if (fish.level === this.player.level) {
-      this.stats.sameSizeCount++;
-    } else if (fish.level < this.player.level) {
-      this.stats.smallerCount++;
-    }
-  
-    if (this.stats.sameSizeCount >= 5 || this.stats.smallerCount >= 10) {
+    if (this.stats.smallerCount >= 10) {
       this.player.grow();
-      this.stats.sameSizeCount = 0;
       this.stats.smallerCount = 0;
     }
-  
+    this.game.container.removeChild(fish.sprite);
+    this.game.enemies = this.game.enemies.filter(e => e !== fish);
   }
   
-  
 }
+  
