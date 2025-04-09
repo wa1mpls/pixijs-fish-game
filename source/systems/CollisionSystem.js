@@ -53,22 +53,38 @@ export class CollisionSystem {
 
   handleBigFish(enemy) {
     const now = Date.now();
-    const immuneTime = 1000; // 1s miễn nhiễm sau khi đụng
-
-    if (enemy.level > this.player.level) {
+    const immuneTime = 1500; // 1.5s miễn nhiễm sau khi bị đụng
+  
+    // ⚠️ Không xử lý nếu enemy đã biến mất
+    if (!enemy.sprite.visible) return;
+  
+    // 👉 Chỉ gây sát thương nếu cá lớn hơn player ít nhất 1 cấp
+    if (enemy.level >= this.player.level + 1) {
       if (now - this.player.lastHit >= immuneTime) {
         this.player.hitCount++;
         this.player.lastHit = now;
+  
+        // 🌟 Hiệu ứng trúng đạn
+        this.player.sprite.tint = 0xff4444;
+        setTimeout(() => {
+          this.player.sprite.tint = 0xFFFFFF;
+        }, 200);
+  
+        console.warn("⚠️ Va chạm cá lớn! hitCount =", this.player.hitCount);
+  
         if (this.player.isDead()) {
+          console.log("💀 Cá đã chết! hitCount =", this.player.hitCount);
           this.isGameOver = true;
           const over = new GameOverScene(this.stats.score);
           over.show();
         }
       }
     } else {
+      // Nếu không mạnh hơn rõ ràng, xử lý như cá nhỏ (bị ăn)
       this.handleSmallFish(enemy);
     }
   }
+  
 
   handleSnake() {
     this.isGameOver = true;
