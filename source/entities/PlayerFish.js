@@ -44,22 +44,24 @@ export class PlayerFish {
 
   update(delta) {
     if (!delta) return;
-    
+  
+    if (this.sprite.scale.x === 0 || this.sprite.scale.y === 0 || isNaN(this.sprite.scale.x)) {
+      console.warn("🐟 Sprite bị vô hình! scale:", this.sprite.scale);
+    }
+  
     const dx = this.target.x - this.sprite.x;
     const dy = this.target.y - this.sprite.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
-    
     if (dist < 1) return;
-    
+  
     const angle = Math.atan2(dy, dx);
-    // Nhân speed với delta để đảm bảo chuyển động đồng nhất theo fps
     const moveDistance = Math.min(this.speed * delta, dist);
     const moveX = Math.cos(angle) * moveDistance;
     const moveY = Math.sin(angle) * moveDistance;
-    
+  
     this.sprite.x += moveX;
     this.sprite.y += moveY;
-    
+  
     const margin = 20;
     this.sprite.x = Math.max(margin, Math.min(window.innerWidth - margin, this.sprite.x));
     this.sprite.y = Math.max(margin, Math.min(window.innerHeight - margin, this.sprite.y));
@@ -77,11 +79,20 @@ export class PlayerFish {
     if (this.level === 2) factor = 1.8;
     else if (this.level === 3) factor = 1.4;
   
-    this.sprite.scale.set(currentScale * factor, currentScale * factor);
-    this.sprite.scale.x *= direction; // giữ hướng không bị đảo
+    const newScale = currentScale * factor;
+  
+    // Kiểm tra để không bao giờ scale quá nhỏ hoặc âm
+    if (newScale < 0.01 || isNaN(newScale)) {
+      console.warn("⚠️ Scale quá nhỏ hoặc lỗi:", newScale);
+      return;
+    }
+  
+    this.sprite.scale.set(newScale, newScale);
+    this.sprite.scale.x *= direction;
   
     this.level++;
   }
+  
   
 
   isDead() {
