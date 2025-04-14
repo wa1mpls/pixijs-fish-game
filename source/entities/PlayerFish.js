@@ -44,25 +44,27 @@ export class PlayerFish {
 
   update(delta) {
     if (!delta) return;
-  
+    
     const dx = this.target.x - this.sprite.x;
     const dy = this.target.y - this.sprite.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
-  
+    
     if (dist < 1) return;
-  
+    
     const angle = Math.atan2(dy, dx);
-    const moveDistance = Math.min(this.speed, dist); // giới hạn không vượt
+    // Nhân speed với delta để đảm bảo chuyển động đồng nhất theo fps
+    const moveDistance = Math.min(this.speed * delta, dist);
     const moveX = Math.cos(angle) * moveDistance;
     const moveY = Math.sin(angle) * moveDistance;
-  
+    
     this.sprite.x += moveX;
     this.sprite.y += moveY;
-  
+    
     const margin = 20;
     this.sprite.x = Math.max(margin, Math.min(window.innerWidth - margin, this.sprite.x));
     this.sprite.y = Math.max(margin, Math.min(window.innerHeight - margin, this.sprite.y));
   }
+  
   
 
   grow() {
