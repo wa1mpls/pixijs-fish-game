@@ -1,0 +1,1 @@
+// Game config (e.g., speed, growth thresholds)

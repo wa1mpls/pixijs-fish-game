@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fish Game</title>
+  <link rel="stylesheet" href="main.css" />
+
+  <!-- PIXI & Emitter -->
+  <script type="module">
+    import * as PIXI from 'https://cdn.jsdelivr.net/npm/pixi.js@7.2.4/+esm';
+    import { Emitter } from 'https://cdn.jsdelivr.net/npm/@pixi/particle-emitter@5.0.3/+esm';
+    window.PIXI = PIXI;
+    window.Emitter = Emitter;
+
+    // Handle music button
+    const toggleMusicBtn = document.getElementById('toggleMusicBtn');
+    let isMusicPlaying = true;
+    toggleMusicBtn.addEventListener('click', () => {
+      isMusicPlaying = !isMusicPlaying;
+      toggleMusicBtn.textContent = isMusicPlaying ? 'Pause' : 'Play';
+    });
+
+    // Handle page visibility
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        // Pause game when tab is not visible
+        isMusicPlaying = false;
+        toggleMusicBtn.textContent = 'Play';
+      }
+    });
+  </script>
+
+  <!-- 🔧 Add style reset to ensure 100% screen use -->
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: 'PixelFont', sans-serif;
+      background-color: #000;
+    }
+
+    canvas {
+      display: block;
+      width: 100vw !important;
+      height: 100vh !important;
+    }
+
+    #ui {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: white;
+      font-size: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px;
+      border-radius: 8px;
+      z-index: 10;
+    }
+
+    #exitBtn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    #exitBtn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="ui">
+    <div>🎮 Player: <span id="playerName">user</span></div>
+    <div>⭐ Level: <span id="level">1</span></div>
+    <div>📐 Size: <span id="sizeLevel">1</span></div>
+    <div>🐟 Fish Eaten: <span id="fishCount">0</span></div>
+    <div>🏆 Score: <span id="score">0</span></div>
+    <div>❤️ Lives: <span id="lives">3</span></div>
+    <div>🎵 Music: <button id="toggleMusicBtn">Pause</button></div>
+  </div>
+
+  <!-- Entry -->
+  <script type="module" src="source/app.js"></script>
+</body>
+</html>
