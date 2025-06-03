@@ -1,4 +1,6 @@
 # 🐟 Fish Game
+![image](https://github.com/user-attachments/assets/18f09357-7819-4439-9344-6507fe4b94ec)
+
 
 Game cá đơn giản được phát triển bằng PixiJS, nơi người chơi điều khiển một chú cá nhỏ để ăn các con cá khác và phát triển lớn hơn.
 
