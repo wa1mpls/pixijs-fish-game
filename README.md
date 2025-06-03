@@ -1,76 +1,75 @@
 # 🐟 Fish Game
 ![image](https://github.com/user-attachments/assets/18f09357-7819-4439-9344-6507fe4b94ec)
 
+A simple fish-eating game built with **PixiJS**, where players control a small fish to eat other fish and grow bigger over time.
 
-Game cá đơn giản được phát triển bằng PixiJS, nơi người chơi điều khiển một chú cá nhỏ để ăn các con cá khác và phát triển lớn hơn.
+## 🎮 How to Play
 
-## 🎮 Cách Chơi
+1. **Movement**:
+   - Use your mouse to control the fish
+   - Click anywhere on the screen to move the fish to that position
 
-1. **Di Chuyển**: 
-   - Sử dụng chuột để điều khiển cá
-   - Click vào vị trí bất kỳ trên màn hình để cá di chuyển đến đó
+2. **Objectives**:
+   - Eat smaller fish to gain points and grow in size
+   - Avoid larger fish or you'll lose a life
+   - Try to achieve the highest score possible
 
-2. **Mục Tiêu**:
-   - Ăn các con cá nhỏ hơn để tăng điểm và phát triển
-   - Tránh các con cá lớn hơn
-   - Cố gắng đạt điểm cao nhất có thể
+3. **Game Mechanics**:
+   - The player starts at level 2
+   - Can grow up to level 4
+   - You have 3 lives (hearts)
+   - Game over when all lives are lost
 
-3. **Cơ Chế Game**:
-   - Cá player bắt đầu ở level 2
-   - Có thể phát triển lên đến level 4
-   - Bạn có 3 mạng (hearts)
-   - Game kết thúc khi hết mạng
+## 🛠️ Technologies Used
 
-## 🛠️ Công Nghệ Sử Dụng
+- **Game Engine**: PixiJS v7
+- **Language**: JavaScript
+- **Assets**: Sprite sheets and JSON animation data
 
-- **Engine**: PixiJS v7
-- **Ngôn ngữ**: JavaScript
-- **Asset Format**: Sprite sheets và JSON
+## 🎯 Features
 
-## 🎯 Tính Năng
+- Smooth fish animations
+- Leveling and size-scaling system
+- Drop shadow effects on menu UI
+- Sound effects integrated
+- Real-time score and progress tracking
+- Smart collision detection
 
-- Animation mượt mà cho cá
-- Hệ thống level và tăng kích thước
-- Hiệu ứng đổ bóng cho menu
-- Âm thanh game
-- Hệ thống điểm số
-- Collision detection thông minh
+## 🚀 How to Run the Game
 
-## 🚀 Cách Chạy Game
+1. Clone the repository to your local machine
+2. Open the `index.html` file using a web server (e.g. Live Server in VS Code)
+3. Enjoy the game in your browser!
 
-1. Clone repository về máy
-2. Mở file `index.html` bằng một web server (có thể dùng Live Server trong VS Code)
-3. Chơi và tận hưởng!
+## 🎨 Assets Used
 
-## 🎨 Assets
+The game uses the following assets:
+- Sprite sheets for the player fish (`user_fish 1.png` to `user_fish 5.png`)
+- Backgrounds for the menu and gameplay
+- AI fish sprites
+- UI elements (buttons, heart icons, score display)
 
-Game sử dụng các assets sau:
-- Sprite sheets cho cá player (`user_fish 1.png` đến `user_fish 5.png`)
-- Background cho menu và gameplay
-- Các sprite cho cá AI
-- UI elements (buttons, hearts, score display)
-
-## 🔧 Cấu Trúc Code
+## 🔧 Code Structure
 
 ```
 source/
 ├── entities/
-│   ├── PlayerFish.js    # Logic cho cá của người chơi
-│   └── ...             # Các entity khác
+│   ├── PlayerFish.js    # Logic for the player's fish
+│   └── ...              # Other game entities
 ├── scenes/
-│   ├── GameScene.js    # Scene chính của game
-│   └── MenuScene.js    # Menu scene
+│   ├── GameScene.js     # Main game scene
+│   └── MenuScene.js     # Menu scene
 ├── utils/
-│   └── ...            # Các utility functions
-└── constants.js       # Game constants
+│   └── ...              # Utility functions
+└── constants.js         # Game constants and settings
 ```
 
-## 📝 Ghi Chú
+## 📝 Notes
 
-- Game được tối ưu cho trình duyệt hiện đại
-- Khuyến nghị sử dụng Chrome hoặc Edge để có trải nghiệm tốt nhất
-- Đảm bảo bật âm thanh để có trải nghiệm game đầy đủ
+- Optimized for modern browsers
+- Recommended: Chrome or Edge for best performance
+- Make sure your sound is on for full game experience
 
-## 🤝 Đóng Góp
+## 🤝 Contributing
 
-Mọi đóng góp để cải thiện game đều được chào đón. Vui lòng tạo issue hoặc pull request nếu bạn muốn đóng góp.
+Contributions are welcome! Feel free to open an issue or submit a pull request to help improve the game.
