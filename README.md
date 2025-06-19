@@ -1,9 +1,9 @@
-# 🐟 Fish Game
+#  Fish Game
 ![image](https://github.com/user-attachments/assets/18f09357-7819-4439-9344-6507fe4b94ec)
 
 A simple fish-eating game built with **PixiJS**, where players control a small fish to eat other fish and grow bigger over time.
 
-## 🎮 How to Play
+##  How to Play
 
 1. **Movement**:
    - Use your mouse to control the fish
@@ -26,7 +26,7 @@ A simple fish-eating game built with **PixiJS**, where players control a small f
 - **Language**: JavaScript
 - **Assets**: Sprite sheets and JSON animation data
 
-## 🎯 Features
+##  Features
 
 - Smooth fish animations
 - Leveling and size-scaling system
@@ -35,13 +35,13 @@ A simple fish-eating game built with **PixiJS**, where players control a small f
 - Real-time score and progress tracking
 - Smart collision detection
 
-## 🚀 How to Run the Game
+##  How to Run the Game
 
 1. Clone the repository to your local machine
 2. Open the `index.html` file using a web server (e.g. Live Server in VS Code)
 3. Enjoy the game in your browser!
 
-## 🎨 Assets Used
+##  Assets Used
 
 The game uses the following assets:
 - Sprite sheets for the player fish (`user_fish 1.png` to `user_fish 5.png`)
@@ -49,7 +49,7 @@ The game uses the following assets:
 - AI fish sprites
 - UI elements (buttons, heart icons, score display)
 
-## 🔧 Code Structure
+##  Code Structure
 
 ```
 source/
@@ -64,12 +64,12 @@ source/
 └── constants.js         # Game constants and settings
 ```
 
-## 📝 Notes
+##  Notes
 
 - Optimized for modern browsers
 - Recommended: Chrome or Edge for best performance
 - Make sure your sound is on for full game experience
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! Feel free to open an issue or submit a pull request to help improve the game.
