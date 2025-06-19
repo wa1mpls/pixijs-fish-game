@@ -20,7 +20,7 @@ A simple fish-eating game built with **PixiJS**, where players control a small f
    - You have 3 lives (hearts)
    - Game over when all lives are lost
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 - **Game Engine**: PixiJS v7
 - **Language**: JavaScript
